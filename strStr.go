@@ -1,8 +1,12 @@
 package main
 
-//import "fmt"
+import (
+	_ "fmt"
+	"strings"
+)
 
 func strStr(haystack string, needle string) int {
+
 	lenhay := len(haystack)
 	lenneed := len(needle)
 	if lenneed == 0 {
@@ -11,20 +15,43 @@ func strStr(haystack string, needle string) int {
 	if lenhay < lenneed {
 		return -1
 	}
-
-	for i := 0; i < lenhay; i++ {
-		j := 0
-		for ; j < lenneed; j++ {
-
-			if i+j > lenhay-1 || haystack[i+j] != needle[j] {
-				break
-			}
-			if j == lenneed-1 {
-				return i
-			}
+	next := getPatternNext2(needle)
+	i, j := 0, 0
+	for i < lenhay && j < lenneed {
+		if j == -1 || haystack[i] == needle[j] {
+			i++
+			j++
+		} else {
+			j = next[j]
 		}
 	}
-	return -1
+	if j == lenneed {
+		return i - j
+	} else {
+		return -1
+	}
+
+}
+func getPatternNext2(pattern string) []int {
+	if len(pattern) == 0 {
+		return []int{}
+	}
+	next := make([]int, len(pattern))
+	arr := strings.Split(pattern, "")
+	next[0] = -1
+	k := -1
+	j := 0
+	for j < len(arr)-1 {
+		if k == -1 || arr[k] == arr[j] {
+			k++
+			j++
+			next[j] = k
+		} else {
+			k = next[k]
+		}
+	}
+	return next
+
 }
 
 //func main() {

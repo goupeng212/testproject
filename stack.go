@@ -81,8 +81,8 @@ func (s *Stack) push(v string) {
 	fmt.Println("stack push:", *s)
 }
 
-func main() {
-	s := "()"
-	fmt.Println(isValid(s))
+//func main() {
+//	s := "()"
+//	fmt.Println(isValid(s))
 
-}
+//}
